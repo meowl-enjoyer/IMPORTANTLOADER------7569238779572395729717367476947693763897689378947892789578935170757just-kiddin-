@@ -25,12 +25,12 @@
   }
 
   button {
-    font-size: 2em;
+    font-size: 3em;
     font-weight: bold;
-    padding: 25px 60px;
+    padding: 40px 80px;
     background-color: #00bfff;
     border: none;
-    border-radius: 20px;
+    border-radius: 25px;
     color: white;
     cursor: pointer;
     box-shadow: 0 0 30px rgba(0, 191, 255, 0.6);
@@ -48,10 +48,55 @@
     50% { box-shadow: 0 0 60px rgba(0, 191, 255, 1); }
     100% { box-shadow: 0 0 20px rgba(0, 191, 255, 0.6); }
   }
+
+  /* Loading bar container */
+  #loadingContainer {
+    width: 80%;
+    max-width: 600px;
+    height: 30px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 15px;
+    margin-top: 50px;
+    overflow: hidden;
+    display: none; /* hidden until button click */
+  }
+
+  #loadingBar {
+    height: 100%;
+    width: 0;
+    background: #00bfff;
+    border-radius: 15px;
+  }
 </style>
 </head>
 <body>
-  <h1>⚠️ click to start update---do not close tab ⚠️</h1>
-  <button onclick="alert('Loading started...')">Start Loading</button>
+  <h1> Please don’t close this tab until loading has finished </h1>
+  <button id="startBtn">Start Loading</button>
+
+  <div id="loadingContainer">
+    <div id="loadingBar"></div>
+  </div>
+
+  <script>
+    const button = document.getElementById('startBtn');
+    const loadingContainer = document.getElementById('loadingContainer');
+    const loadingBar = document.getElementById('loadingBar');
+
+    button.addEventListener('click', () => {
+      // hide button
+      button.style.display = 'none';
+      // show loading bar
+      loadingContainer.style.display = 'block';
+
+      let width = 0;
+      const interval = setInterval(() => {
+        // increase width slowly but never reaches 100%
+        width += Math.random() * 1; // 0–1% per frame
+        if(width >= 99) width = 99; // stop before 100%
+        loadingBar.style.width = width + '%';
+      }, 50); // update every 50ms
+    });
+  </script>
 </body>
 </html>
+
